@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
+    "lint": "eslint \"{src,test}/**/*.js\" --fix --cache",
     "test": "mocha --config test/.mocharc.unit.json",
     "test:i": "mocha --config test/.mocharc.integration.json"
   },
@@ -12,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "4.3.7",
+    "eslint": "8.31.0",
     "mocha": "10.2.0",
     "supertest": "6.3.3"
   }

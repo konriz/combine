@@ -1,3 +1,3 @@
 export function timestampLogString(...payload) {
-    return `${new Date().getTime()} : ${payload.join('\n')}`;
+  return `${new Date().getTime()} : ${payload.join('\n')}`;
 }
