@@ -1,0 +1,13 @@
+{
+  "name": "combine",
+  "version": "1.0.0",
+  "description": "combine everything I know",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "konrad@polek.com.pl",
+  "license": "ISC"
+}
