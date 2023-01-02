@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --config test/.mocharc.unit.json",
     "test:i": "mocha --config test/.mocharc.integration.json"
   },
   "author": "konrad@polek.com.pl",

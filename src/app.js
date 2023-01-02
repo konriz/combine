@@ -1,4 +1,5 @@
 import http from 'http';
+import {timestampLogString} from "./logging.js";
 
 function bootstrap(port) {
     return logAround(createServer, `createServer at ${port}`, port, (req, res) => logAround(requestHandler, 'requestHandler', req, res));
@@ -15,11 +16,12 @@ function requestHandler(req, res) {
 }
 
 function logAround(fn, name, ...params) {
-    console.log(`${new Date().getTime()} : Function ${name} start`);
+    console.log(timestampLogString(`Function ${name} start`));
     const result = fn(...params);
-    console.log(`${new Date().getTime()} : Function ${name} end`)
+    console.log(timestampLogString(`Function ${name} end`));
     return result
 }
+
 
 const PORT = 8080;
 
