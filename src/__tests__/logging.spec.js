@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {timestampLogString} from '../logging.js';
+import { expect } from 'chai';
+import { timestampLogString } from '../logging.js';
 
 describe('Logging utils', () => {
   it('Should add millis timestamp to log', () => {
