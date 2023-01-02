@@ -1,0 +1,6 @@
+{
+    "spec": ["./test/**/*.i-spec.js"],
+    "exit": true,
+    "timeout": "5s"
+}
+

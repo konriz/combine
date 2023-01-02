@@ -1,11 +1,11 @@
 import http from 'http';
 
-const PORT = 8080;
-
-logAround(createServer, `createServer at ${PORT}`, PORT, (req, res) => logAround(requestHandler, 'requestHandler', req, res));
+function bootstrap(port) {
+    return logAround(createServer, `createServer at ${port}`, port, (req, res) => logAround(requestHandler, 'requestHandler', req, res));
+}
 
 function createServer(port, handler) {
-    http.createServer(handler).listen(port);
+    return http.createServer(handler).listen(port);
 }
 
 function requestHandler(req, res) {
@@ -16,6 +16,11 @@ function requestHandler(req, res) {
 
 function logAround(fn, name, ...params) {
     console.log(`${new Date().getTime()} : Function ${name} start`);
-    fn(...params);
+    const result = fn(...params);
     console.log(`${new Date().getTime()} : Function ${name} end`)
+    return result
 }
+
+const PORT = 8080;
+
+export const app = bootstrap(PORT);
