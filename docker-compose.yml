@@ -4,11 +4,10 @@ services:
     container_name: 'combine-app'
     build:
       context: .
-    volumes:
-      - .:/home/node
-      - /home/node/node_modules
+    env_file:
+      - .env.docker
     ports:
-      - 8080:8080
+      - ${PORT}:${PORT}
     networks:
       - local
 networks:

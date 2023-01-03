@@ -1,3 +1,4 @@
+import * as config from './config/index.js';
 import http from 'http';
 import {timestampLogString} from './logging.js';
 
@@ -13,7 +14,7 @@ function createServer(port, handler) {
 
 function requestHandler(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('Hello World!');
+  res.write(`Hello World! ${config.common.title}`);
   res.end();
 }
 
@@ -24,6 +25,4 @@ function logAround(fn, name, ...params) {
   return result;
 }
 
-const PORT = 8080;
-
-export const app = bootstrap(PORT);
+export const app = bootstrap(config.common.port);
