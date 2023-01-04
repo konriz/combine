@@ -2,7 +2,6 @@ import {bootstrap as bootstrapNode} from './nodeApp.js';
 import {bootstrap as bootstrapGateway} from './gateway.js';
 import * as config from './config/index.js';
 
-bootstrapNode(config.common.port + 1);
-bootstrapNode(config.common.port + 2);
+bootstrapNode(config.nodeApp.port);
 
-bootstrapGateway(config.common.port);
+bootstrapGateway(config.gateway.port);

@@ -1,6 +1,6 @@
-import * as config from './config/index.js';
 import http from 'http';
 import {timestampLogString} from './logging.js';
+import {nodeApp} from './config/index.js';
 
 export function bootstrap(port) {
   return logAround(createServer, `createServer at ${port}`, port, (req, res) =>
@@ -14,7 +14,7 @@ function createServer(port, handler) {
 
 function requestHandler(req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write(`Hello World! ${config.common.title}`);
+  res.write(`Hello World! ${nodeApp.title}`);
   res.end();
 }
 
