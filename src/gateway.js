@@ -1,24 +1,32 @@
 import http from 'http';
-import {nodeApp} from './config/index.js';
+import {log, logError} from './logging.js';
 
-// TODO routing table
-export function bootstrap(port) {
-  http.createServer((req, res) => {
+export function bootstrap(port, routingTable) {
+  return http.createServer((req, res) => {
 
-    const port = req.url.includes('node') ? nodeApp.port : 8082;
+    const port = routingTable.resolvePort(req.url);
 
-    const proxiedRequest = http.request({port, path: req.url, headers: req.headers, method: req.method}, (response) => {
-      res.writeHead(response.statusCode, response.statusMessage, response.headers);
-      response.pipe(res);
-    });
+    if (!port) {
+      res.writeHead(404);
+      res.end();
+    }
 
-    proxiedRequest.on('error', (e) => {
-      console.error(`Proxy error: ${e.message}`);
+    const proxyedRequest = proxyRequest(req, res, port);
+
+    proxyedRequest.on('error', (e) => {
+      logError(`Proxy error: ${e.message}`);
       res.writeHead(500);
       res.end();
     });
 
-    req.pipe(proxiedRequest);
+    req.pipe(proxyedRequest);
 
-  }).listen(port, () => console.log(`Listening on ${port}`));
+  }).listen(port, () => log(`Listening on ${port}`));
+}
+
+function proxyRequest(req, res, port) {
+  return http.request({port, path: req.url, headers: req.headers, method: req.method}, (response) => {
+    res.writeHead(response.statusCode, response.statusMessage, response.headers);
+    response.pipe(res);
+  });
 }

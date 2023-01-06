@@ -1,6 +1,6 @@
 import request from 'supertest';
 import {expect} from 'chai';
-import {bootstrap} from '../src/nodeApp.js';
+import {bootstrap} from '../../src/nodeApp/nodeApp.js';
 
 const nodeApp = bootstrap(8080);
 

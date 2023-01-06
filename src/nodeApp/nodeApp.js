@@ -1,6 +1,6 @@
 import http from 'http';
-import {timestampLogString} from './logging.js';
-import {nodeApp} from './config/index.js';
+import {nodeApp} from '../config/index.js';
+import {log} from '../logging.js';
 
 export function bootstrap(port) {
   return logAround(createServer, `createServer at ${port}`, port, (req, res) =>
@@ -19,8 +19,8 @@ function requestHandler(req, res) {
 }
 
 function logAround(fn, name, ...params) {
-  console.log(timestampLogString(`Function ${name} start`));
+  log(`Function ${name} start`);
   const result = fn(...params);
-  console.log(timestampLogString(`Function ${name} end`));
+  log(`Function ${name} end`);
   return result;
 }
