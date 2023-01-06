@@ -1,7 +1,11 @@
 import http from 'http';
-import {log, logError} from './logging.js';
+import {initLogString, log, logAround, logError} from './logging.js';
 
 export function bootstrap(port, routingTable) {
+  return logAround(createServer, initLogString('gateway', port), port, routingTable);
+}
+
+export function createServer(port, routingTable) {
   return http.createServer((req, res) => {
 
     const port = routingTable.resolvePort(req.url);
