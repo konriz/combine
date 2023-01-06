@@ -1,7 +1,7 @@
 export function routingTable(rootToPortMapping) {
 
   function resolvePort(url) {
-    const root = new URL(url).pathname.split('/')[1];
+    const root = url.split('/')[1].split('?')[0];
     return rootToPortMapping[root];
   }
 
