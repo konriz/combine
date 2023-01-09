@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
+    "start:graph": "node src/graphQLApp/index.js",
     "lint": "eslint \"{src,test}/**/*.js\" --fix --cache",
     "prettier": "prettier --write .",
     "test": "mocha --config test/.mocharc.unit.json",
