@@ -9,7 +9,7 @@ const BookType = new GraphQLObjectType({
   })
 });
 
-export function prepareFieldsConfig(dataSource) {
+export function prepareBooksFieldsConfig(dataSource) {
   const queryFieldsConfig = {
     books: {
       type: GraphQLList(BookType),
@@ -20,8 +20,8 @@ export function prepareFieldsConfig(dataSource) {
     book: {
       type: BookType,
       args: {id: {type: GraphQLString}},
-      resolve(parent, args) {
-        return dataSource.findBook(args.id);
+      resolve(parent, { id }) {
+        return dataSource.findBook(id);
       }
     }
   };
@@ -30,8 +30,7 @@ export function prepareFieldsConfig(dataSource) {
     createBook: {
       type: BookType,
       args: {title: {type: GraphQLString}, genre: {type: GraphQLString}},
-      resolve(parent, args) {
-        const {title, genre} = args;
+      resolve(parent, {title, genre}) {
         return dataSource.createBook({title, genre});
       }
     }
