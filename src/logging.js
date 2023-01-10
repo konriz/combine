@@ -1,5 +1,5 @@
 function timestampLogString(...payload) {
-  return `${new Date().getTime()} : ${payload.join('\n')}`;
+  return `${Date.now()} : ${payload.join('\n')}`;
 }
 
 export function initLogString(appName, port) {
@@ -14,9 +14,9 @@ export function logError(...payload) {
   console.error(timestampLogString(...payload));
 }
 
-export function logAround(fn, name, ...params) {
+export function logAround(function_, name, ...parameters) {
   log(`${name} start`);
-  const result = fn(...params);
+  const result = function_(...parameters);
   log(`${name} end`);
   return result;
 }

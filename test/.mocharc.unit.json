@@ -1,5 +1,7 @@
 {
-  "spec": ["./src/**/*.spec.js"],
+  "spec": [
+    "./src/**/*.spec.js"
+  ],
   "exit": true,
   "timeout": "5s"
 }
