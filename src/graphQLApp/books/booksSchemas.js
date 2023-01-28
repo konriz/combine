@@ -13,14 +13,14 @@ export function prepareBooksFieldsConfig(dataSource) {
   const queryFieldsConfig = {
     books: {
       type: GraphQLList(BookType),
-      resolve() {
-        return dataSource.getBooks();
+      async resolve() {
+        return await dataSource.getBooks();
       },
     },
     book: {
       type: BookType,
       args: { id: { type: GraphQLString } },
-      resolve(parent, { id }) {
+      async resolve(parent, { id }) {
         return dataSource.findBook(id);
       },
     },
@@ -30,7 +30,7 @@ export function prepareBooksFieldsConfig(dataSource) {
     createBook: {
       type: BookType,
       args: { title: { type: GraphQLString }, genre: { type: GraphQLString } },
-      resolve(parent, { title, genre }) {
+      async resolve(parent, { title, genre }) {
         return dataSource.createBook({ title, genre });
       },
     },

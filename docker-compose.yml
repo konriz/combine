@@ -19,6 +19,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     networks:
       - local
+    ports:
+      - '27017:27017'
 
   mongo-express:
     container_name: 'combine_mongo_express'

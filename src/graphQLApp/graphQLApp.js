@@ -6,15 +6,16 @@ import { booksInMemoryDataSource } from './books/dataSources/booksInMemoryDataSo
 import { prepareBooksFieldsConfig } from './books/booksSchemas.js';
 import { prepareUsersFieldsConfig } from './users/usersSchemas.js';
 import { usersInMemoryDataSource } from './users/dataSources/usersInMemoryDataSource.js';
-import {booksMongoDataSource} from './books/dataSources/booksMongoDataSource.js';
-import {usersMongoDataSource} from './users/dataSources/usersMongoDataSource.js';
+import { booksMongoDataSource } from './books/dataSources/booksMongoDataSource.js';
+import { usersMongoDataSource } from './users/dataSources/usersMongoDataSource.js';
+import { MongoSetup } from '../databaseClients/mongoClient.js';
 
-export function bootstrap(port) {
-  return logAround(createServer, initLogString('graphql', port), port);
+export async function bootstrap(port, env) {
+  return logAround(await createServer, initLogString('graphql', port), port, env);
 }
 
-function createServer(port, env) {
-  const dataSources = prepareDataSources(env);
+async function createServer(port, env) {
+  const dataSources = await prepareDataSources(env);
 
   const { schema } = initGraphQL(dataSources);
 
@@ -25,9 +26,14 @@ function createServer(port, env) {
   return app.listen(port);
 }
 
-function prepareDataSources(env) {
+async function prepareDataSources(env) {
   if (env === 'mongo') {
-    return { booksData: booksMongoDataSource(), usersData: usersMongoDataSource() };
+    const client = await MongoSetup().setupClient();
+    const db = client.getDb('public');
+    return {
+      booksData: booksMongoDataSource(db),
+      usersData: usersMongoDataSource(db),
+    };
   }
   return { booksData: booksInMemoryDataSource(), usersData: usersInMemoryDataSource() };
 }
