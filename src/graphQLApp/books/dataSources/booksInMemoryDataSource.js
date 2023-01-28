@@ -1,17 +1,15 @@
+import { randomUUID } from 'crypto';
+
 export function booksInMemoryDataSource() {
-  const books = [
-    { id: '1', title: 'The Foundation', genre: 'Science Fiction' },
-    { id: '2', title: 'The Fellowship of the Ring', genre: 'Fantasy' },
-    { id: '3', title: 'The Eye of the World', genre: 'Fantasy' },
-  ];
+  const books = new Map();
 
   return {
-    getBooks: () => books,
-    findBook: (id) => books.find((book) => book.id === id),
+    getBooks: () => Array.from(books.entries()).map((value) => ({ id: value[0], ...value[1] })),
+    findBook: (id) => books.get(id),
     createBook: ({ title, genre }) => {
-      const book = { id: `${books.length + 1}`, title, genre };
-      books.push(book);
-      return book;
+      const id = randomUUID();
+      books.set(id, { title, genre });
+      return { id, title, genre };
     },
   };
 }

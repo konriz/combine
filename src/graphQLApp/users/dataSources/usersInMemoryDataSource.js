@@ -1,13 +1,15 @@
+import { randomUUID } from 'crypto';
+
 export function usersInMemoryDataSource() {
-  const users = [{id: '1', name: 'John', surname: 'Doe'}];
+  const users = new Map();
 
   return {
-    getUsers: () => users,
-    findUser: (id) => users.find(user => user.id === id),
-    createUser: ({name, surname}) => {
-      const user = {id: `${users.length + 1}`, name, surname};
-      users.push(user);
-      return user;
-    }
+    getUsers: () => Array.from(users.entries()).map((value) => ({ id: value[0], ...value[1] })),
+    findUser: (id) => users.get(id),
+    createUser: ({ name, surname }) => {
+      const id = randomUUID();
+      users.set(id, { name, surname });
+      return { id, name, surname };
+    },
   };
 }
