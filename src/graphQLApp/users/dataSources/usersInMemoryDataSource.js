@@ -1,4 +1,4 @@
-export function usersDataSource() {
+export function usersInMemoryDataSource() {
   const users = [{id: '1', name: 'John', surname: 'Doe'}];
 
   return {
