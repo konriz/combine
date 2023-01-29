@@ -8,10 +8,10 @@ export const nodeApp = {
 
 export const graphApp = {
   port: process.env.GRAPH_PORT,
-  env: process.env.GRAPH_ENV,
+  mongoUri: process.env.GRAPH_MONGO_URI,
 };
 
 export const gateway = {
   port: process.env.GATEWAY_PORT,
-  mapping: {node: nodeApp.port, graphql: graphApp.port},
+  mapping: { node: nodeApp.port, graphql: graphApp.port },
 };

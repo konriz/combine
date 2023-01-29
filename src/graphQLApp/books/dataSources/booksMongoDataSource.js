@@ -1,14 +1,10 @@
-export function booksMongoDataSource(db) {
-  const collection = db.collection('books');
-
+export function booksMongoDataSource(Book) {
   return {
-    getBooks: async () => {
-      const cursor = await collection.find();
-      return cursor.toArray();
-    },
-    findBook: async (id) => await collection.findOne({ id }),
+    getBooks: async () => Book.find(),
+    findBook: async (id) => Book.findById({ id }),
     createBook: async ({ title, genre }) => {
-      return await collection.insertOne({ title, genre });
+      const book = new Book({ title, genre });
+      return book.save();
     },
   };
 }

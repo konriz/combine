@@ -14,11 +14,11 @@ async function createServer(port, dataSources) {
 
   const app = express();
 
+  app.use('/graphql', graphqlHTTP({ schema, graphiql: true }));
+
   app.use('/', (req, res) => {
     res.sendStatus(200);
   });
-
-  app.use('/graphql', graphqlHTTP({ schema, graphiql: true }));
 
   return app.listen(port);
 }

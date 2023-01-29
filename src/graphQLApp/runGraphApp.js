@@ -1,25 +1,28 @@
 import { bootstrap as bootstrapGraphQL } from './graphQLApp.js';
 import * as config from '../config/index.js';
-import { MongoSetup } from '../databaseClients/mongoClient.js';
+import { mongoSchema } from '../databaseClients/mongoClient.js';
 import { booksMongoDataSource } from './books/dataSources/booksMongoDataSource.js';
 import { usersMongoDataSource } from './users/dataSources/usersMongoDataSource.js';
 import { booksInMemoryDataSource } from './books/dataSources/booksInMemoryDataSource.js';
 import { usersInMemoryDataSource } from './users/dataSources/usersInMemoryDataSource.js';
+import { log } from '../logging.js';
 
 export async function runGraphApp(dataSources) {
-  async function prepareDataSources(env) {
-    if (env === 'mongo') {
-      const client = await MongoSetup().setupClient();
-      const db = client.getDb('public');
+  async function prepareDataSources() {
+    const mongoURI = config.graphApp.mongoUri;
+    if (!!mongoURI) {
+      log('Mongo data source setup');
+      const { Book, User } = await mongoSchema(mongoURI);
       return {
-        booksData: booksMongoDataSource(db),
-        usersData: usersMongoDataSource(db),
+        booksData: booksMongoDataSource(Book),
+        usersData: usersMongoDataSource(User),
       };
     }
+    log('In memory data source setup');
     return { booksData: booksInMemoryDataSource(), usersData: usersInMemoryDataSource() };
   }
 
-  const dataSrc = dataSources ?? (await prepareDataSources(config.graphApp.env));
+  const dataSrc = dataSources ?? (await prepareDataSources());
 
   return bootstrapGraphQL(config.graphApp.port, dataSrc);
 }

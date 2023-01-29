@@ -1,13 +1,10 @@
-export function usersMongoDataSource() {
-  const users = [{id: '1', name: 'John', surname: 'Doe'}];
-
+export function usersMongoDataSource(User) {
   return {
-    getUsers: () => users,
-    findUser: (id) => users.find(user => user.id === id),
-    createUser: ({name, surname}) => {
-      const user = {id: `${users.length + 1}`, name, surname};
-      users.push(user);
-      return user;
-    }
+    getBooks: async () => User.find(),
+    findBook: async (id) => User.findById({ id }),
+    createBook: async ({ name, surname }) => {
+      const user = new User({ name, surname });
+      return user.save();
+    },
   };
 }

@@ -1,20 +1,10 @@
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
-export function MongoSetup() {
-  let client = undefined;
+export async function mongoSchema(mongoURI) {
+  const client = await mongoose.connect(mongoURI);
 
-  async function setupClient() {
-    if (!!client) {
-      return;
-    }
-    // TODO: move this to config
-    client = new MongoClient('mongodb://root:example@localhost:27017/');
-    await client.connect();
-    await client.db('admin').command({ ping: 1 });
-    console.log('MongoDB connected successfully to server');
+  const Book = client.model('Book', { title: String, genre: String });
+  const User = client.model('User', { name: String, surname: String });
 
-    return { getDb: (name) => client.db(name) };
-  }
-
-  return { setupClient };
+  return { Book, User };
 }
